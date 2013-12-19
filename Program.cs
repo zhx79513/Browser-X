@@ -17,7 +17,6 @@ namespace BrowserX
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MetroMainForm());
-			//Application.Run(new Form1());
         }
     }
 }

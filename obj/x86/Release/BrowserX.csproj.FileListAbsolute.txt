@@ -9,9 +9,6 @@ E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\b
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\bin\Release\JSCore.dll
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\bin\Release\ICSharpCode.SharpZipLib.dll
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\bin\Release\DevComponents.DotNetBar2.xml
-E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.csprojResolveAssemblyReference.cache
-E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.Form1.resources
-E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.MainForm.resources
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.MetroMainForm.resources
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.Properties.Resources.resources
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.csproj.GenerateResource.Cache

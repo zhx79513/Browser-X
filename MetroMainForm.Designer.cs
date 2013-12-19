@@ -180,6 +180,10 @@
 			// 
 			// 
 			// 
+			this.tbUrl.Border.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Etched;
+			this.tbUrl.Border.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Etched;
+			this.tbUrl.Border.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Etched;
+			this.tbUrl.Border.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Etched;
 			this.tbUrl.Border.Class = "TextBoxBorder";
 			this.tbUrl.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
 			this.tbUrl.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -801,6 +805,7 @@
 			// blockPopupsToolStripMenuItem
 			// 
 			this.blockPopupsToolStripMenuItem.Checked = true;
+			this.blockPopupsToolStripMenuItem.CheckOnClick = true;
 			this.blockPopupsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.blockPopupsToolStripMenuItem.Name = "blockPopupsToolStripMenuItem";
 			this.blockPopupsToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
@@ -829,6 +834,7 @@
 			this.Controls.Add(this.btnBackward);
 			this.Controls.Add(this.pContent);
 			this.DoubleBuffered = true;
+			this.FlattenMDIBorder = false;
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.MinimumSize = new System.Drawing.Size(640, 460);
 			this.Name = "MetroMainForm";
