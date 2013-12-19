@@ -224,7 +224,8 @@ namespace BrowserX
 			string dt = (sender as WebKitBrowser).DocumentTitle;
 
 			string ft = dt.Length > 30 ? dt.Substring(0, 30) + "..." : dt;
-			(sender as WebKitBrowser).Parent.Text = ft;
+			var panel = (sender as WebKitBrowser).Parent as SuperTabControlPanel;
+			panel.TabItem.Text = ft;		
 		}
 
 		private void WebKitBrowser_ProgressChanged(object sender, ProgressChangesEventArgs e)
