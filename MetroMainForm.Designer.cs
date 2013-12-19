@@ -38,9 +38,9 @@
 			this.tbUrl = new DevComponents.DotNetBar.Controls.TextBoxX();
 			this.pContent = new DevComponents.DotNetBar.PanelEx();
 			this.contextMenuBar1 = new DevComponents.DotNetBar.ContextMenuBar();
-			this.rtbResourceIntercepter = new DevComponents.DotNetBar.Controls.RichTextBoxEx();
 			this.btnitemResourceInsContextMenu = new DevComponents.DotNetBar.ButtonItem();
 			this.biRiClear = new DevComponents.DotNetBar.ButtonItem();
+			this.rtbResourceIntercepter = new DevComponents.DotNetBar.Controls.RichTextBoxEx();
 			this.pZoom = new DevComponents.DotNetBar.PanelEx();
 			this.btnZoomClose = new DevComponents.DotNetBar.ButtonX();
 			this.numudTextZoom = new System.Windows.Forms.NumericUpDown();
@@ -229,6 +229,19 @@
 			this.contextMenuBar1.TabStop = false;
 			this.contextMenuBar1.Text = "contextMenuBar1";
 			// 
+			// btnitemResourceInsContextMenu
+			// 
+			this.btnitemResourceInsContextMenu.Name = "btnitemResourceInsContextMenu";
+			this.btnitemResourceInsContextMenu.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.biRiClear});
+			this.btnitemResourceInsContextMenu.Text = "ResourceInspectorContext";
+			// 
+			// biRiClear
+			// 
+			this.biRiClear.Name = "biRiClear";
+			this.biRiClear.Text = "Clear";
+			this.biRiClear.Click += new System.EventHandler(this.biRiClear_Click);
+			// 
 			// rtbResourceIntercepter
 			// 
 			// 
@@ -244,19 +257,6 @@
 			this.rtbResourceIntercepter.TabIndex = 4;
 			this.rtbResourceIntercepter.Visible = false;
 			this.rtbResourceIntercepter.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbResourceIntercepter_LinkClicked);
-			// 
-			// btnitemResourceInsContextMenu
-			// 
-			this.btnitemResourceInsContextMenu.Name = "btnitemResourceInsContextMenu";
-			this.btnitemResourceInsContextMenu.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.biRiClear});
-			this.btnitemResourceInsContextMenu.Text = "ResourceInspectorContext";
-			// 
-			// biRiClear
-			// 
-			this.biRiClear.Name = "biRiClear";
-			this.biRiClear.Text = "Clear";
-			this.biRiClear.Click += new System.EventHandler(this.biRiClear_Click);
 			// 
 			// pZoom
 			// 
@@ -830,8 +830,10 @@
 			this.Controls.Add(this.pContent);
 			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.MinimumSize = new System.Drawing.Size(640, 460);
 			this.Name = "MetroMainForm";
 			this.Text = "BrowserX";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.MetroMainForm_Load);
 			this.pContent.ResumeLayout(false);
 			this.pContent.PerformLayout();
