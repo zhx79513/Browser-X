@@ -1,65 +1,86 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using DevComponents.DotNetBar;
+using DevComponents.DotNetBar.Metro;
+using Microsoft.VisualBasic;
 using WebKit;
 
 
 
 namespace BrowserX
 {
-	public partial class MetroMainForm : DevComponents.DotNetBar.Metro.MetroForm
+	public partial class MetroMainForm : MetroForm
 	{
-		private ContextMenuStrip customContextMenu = new ContextMenuStrip();
+		private readonly ContextMenuStrip customContextMenu = new ContextMenuStrip();
 
-
+		#region Constructor
 		public MetroMainForm()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 
 			ToolStripMenuItem item = new ToolStripMenuItem("Test1") { Text = "Test 1" };
-			customContextMenu.Items.Add(item);
+			this.customContextMenu.Items.Add(item);
 			item = new ToolStripMenuItem("Test2") { Text = "Test 2" };
-			customContextMenu.Items.Add(item);
+			this.customContextMenu.Items.Add(item);
 			item = new ToolStripMenuItem("-");
-			customContextMenu.Items.Add(item);
+			this.customContextMenu.Items.Add(item);
 			item = new ToolStripMenuItem("Test3") { Text = "Test 3" };
-			customContextMenu.Items.Add(item);
+			this.customContextMenu.Items.Add(item);
 		}
+		#endregion
 
+		#region Properties
+		private WebKitBrowser webKitBrowser1
+		{
+			get
+			{
+				if (this.tcContent.SelectedTab.AttachedControl.Controls.Count == 0)
+					return null;
+				return this.tcContent.SelectedTab.AttachedControl.Controls[0] as WebKitBrowser;
+			}
+		}
+		#endregion
+
+		#region WebKitEvents
 		private void AddEvents(WebKitBrowser browser)
 		{
-			browser.Navigating += new WebKitBrowserNavigatingEventHandler(this.WebKitBrowser_Navigating);
-			browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(this.WebKitBrowser_DocumentCompleted);
-			browser.CanGoBackChanged += new CanGoBackChanged(this.WebKitBrowser_CanGoBackChanged);
-			browser.GeolocationPositionRequest += new GeolocationRequest(this.browser_GeolocationPositionRequest);
-			browser.CanGoForwardChanged += new CanGoForwardChanged(this.WebKitBrowser_CanGoForwardChanged);
-			browser.CloseWindowRequest += new EventHandler(this.WebKitBrowser_CloseWindowRequest);
-			browser.DangerousSiteDetected += new EventHandler(this.WebKitBrowser_DangerousSiteDetected);
-			browser.DocumentTitleChanged += new EventHandler(this.WebKitBrowser_DocumentTitleChanged);
-			browser.FaviconAvailable += new FaviconAvailable(this.WebKitBrowser_FaviconAvaiable);
-			browser.HeadersAvailable += new HeadersAvailableEventHandler(this.browser_HeadersAvailable);
+			browser.Navigating += this.WebKitBrowser_Navigating;
+			browser.DocumentCompleted += this.WebKitBrowser_DocumentCompleted;
+			browser.CanGoBackChanged += this.WebKitBrowser_CanGoBackChanged;
+			browser.GeolocationPositionRequest += this.WebKitBrowser_GeolocationPositionRequest;
+			browser.CanGoForwardChanged += this.WebKitBrowser_CanGoForwardChanged;
+			browser.CloseWindowRequest += this.WebKitBrowser_CloseWindowRequest;
+			browser.DangerousSiteDetected += this.WebKitBrowser_DangerousSiteDetected;
+			browser.DocumentTitleChanged += this.WebKitBrowser_DocumentTitleChanged;
+			browser.FaviconAvailable += this.WebKitBrowser_FaviconAvaiable;
+			browser.HeadersAvailable += this.WebKitBrowser_HeadersAvailable;
 			//browser.FormSubmit += new WillSubmitForm(this.WebKitBrowser_FormSubmit);
-			browser.NewWindowCreated += new NewWindowCreatedEventHandler(this.WebKitBrowser_NewWindowCreated);
-			browser.PopupCreated += new NewWindowCreatedEventHandler(this.WebKitBrowser_PopupCreated);
-			browser.ProgressChanged += new WebKit.ProgressChangedEventHandler(this.WebKitBrowser_ProgressChanged);
-			browser.ShowJavaScriptAlertPanel += new ShowJavaScriptAlertPanelEventHandler(this.WebKitBrowser_ShowJavaScriptAlertPanel);
-			browser.ShowJavaScriptConfirmPanel += new ShowJavaScriptConfirmPanelEventHandler(this.WebKitBrowser_ShowJavaScriptConfirmPanel);
-			browser.ShowJavaScriptPromptBeforeUnload += new ShowJavaScriptPromptBeforeUnloadEventHandler(this.WebKitBrowser_ShowJavaScriptPromptBeforeUnload);
-			browser.ShowJavaScriptPromptPanel += new ShowJavaScriptPromptPanelEventHandler(this.WebKitBrowser_ShowJavaScriptPromptPanel);
-			browser.StatusTextChanged += new StatusTextChanged(this.WebKitBrowser_StatusTextChanged);
-			browser.CustomContextMenuManager.ShowContextMenu += new ShowContextMenu(this.CustomContextMenuManager_ShowContextMenu);
-			browser.ResourceIntercepter.ResourceSizeAvailableEvent += new ResourceSizeAvailable(this.ResourceIntercepter_ResourceProgressChangedEvent);
-			browser.ResourceIntercepter.ResourceFinishedLoadingEvent += new ResourceFinishedLoadingHandler(this.ResourceIntercepter_ResourceFinishedLoadingEvent);
-			browser.ResourceIntercepter.ResourceStartedLoadingEvent += new ResourceStartedLoadingHandler(this.ResourceIntercepter_ResourceStartedLoadingEvent);
-			browser.ResourceIntercepter.ResourcesSendRequest += new ResourceSendRequestEventHandler(this.ResourceIntercepter_ResourcesSendRequest);
-			browser.ResourceIntercepter.ResourceFailedLoading += new ResourceFailedHandler(this.ResourceIntercepter_ResourceFailedLoading);
+			browser.NewWindowCreated += this.WebKitBrowser_NewWindowCreated;
+			browser.PopupCreated += this.WebKitBrowser_PopupCreated;
+			browser.ProgressChanged += this.WebKitBrowser_ProgressChanged;
+			browser.ShowJavaScriptAlertPanel +=
+				this.WebKitBrowser_ShowJavaScriptAlertPanel;
+			browser.ShowJavaScriptConfirmPanel +=
+				this.WebKitBrowser_ShowJavaScriptConfirmPanel;
+			browser.ShowJavaScriptPromptBeforeUnload +=
+				this.WebKitBrowser_ShowJavaScriptPromptBeforeUnload;
+			browser.ShowJavaScriptPromptPanel +=
+				this.WebKitBrowser_ShowJavaScriptPromptPanel;
+			browser.StatusTextChanged += this.WebKitBrowser_StatusTextChanged;
+			browser.CustomContextMenuManager.ShowContextMenu += this.CustomContextMenuManager_ShowContextMenu;
+			browser.ResourceIntercepter.ResourceSizeAvailableEvent +=
+				this.ResourceIntercepter_ResourceProgressChangedEvent;
+			browser.ResourceIntercepter.ResourceFinishedLoadingEvent +=
+				this.ResourceIntercepter_ResourceFinishedLoadingEvent;
+			browser.ResourceIntercepter.ResourceStartedLoadingEvent +=
+				this.ResourceIntercepter_ResourceStartedLoadingEvent;
+			browser.ResourceIntercepter.ResourcesSendRequest +=
+				this.ResourceIntercepter_ResourcesSendRequest;
+			browser.ResourceIntercepter.ResourceFailedLoading +=
+				this.ResourceIntercepter_ResourceFailedLoading;
 		}
+
+
 
 		private void WebKitBrowser_Navigating(object sender, WebKitBrowserNavigatingEventArgs e)
 		{
@@ -67,7 +88,7 @@ namespace BrowserX
 			// You can cancel the navigation progress and get the Url and TargetFrameName
 		}
 
-		private void browser_HeadersAvailable(object sender, HeadersAvailableEventArgs e)
+		private void WebKitBrowser_HeadersAvailable(object sender, HeadersAvailableEventArgs e)
 		{
 			// here you can interfere with headers
 
@@ -78,7 +99,7 @@ namespace BrowserX
 			//MessageBox.Show(tomes);
 		}
 
-		private void browser_GeolocationPositionRequest(object sender, GeolocationRequestEventArgs e)
+		private void WebKitBrowser_GeolocationPositionRequest(object sender, GeolocationRequestEventArgs e)
 		{
 			e.Allow = true;
 		}
@@ -86,9 +107,7 @@ namespace BrowserX
 		private void WebKitBrowser_PopupCreated(object sender, NewWindowCreatedEventArgs e)
 		{
 			if (this.blockPopupsToolStripMenuItem.Checked)
-			{
 				MessageBoxEx.Show("A popup has been blocked");
-			}
 			else
 			{
 				Form f = new Form();
@@ -104,30 +123,16 @@ namespace BrowserX
 			}
 		}
 
-		private void wb_FaviconAvailable(object sender, FaviconAvailableEventArgs e)
-		{
-			((Form)((WebKitBrowser)sender).Parent).Icon = e.Favicon;
-		}
-
-		private void wb_DocumentTitleChanged(object sender, EventArgs e)
-		{
-			((WebKitBrowser)sender).Parent.Text = ((WebKitBrowser)sender).DocumentTitle;
-		}
-
 		private void WebKitBrowser_CanGoForwardChanged(object sender, CanGoForwardChangedEventArgs e)
 		{
 			if (sender.Equals(this.webKitBrowser1))
-			{
 				this.btnForward.Enabled = e.CanGoForward;
-			}
 		}
 
 		private void WebKitBrowser_CanGoBackChanged(object sender, CanGoBackChangedEventArgs e)
 		{
 			if (sender.Equals(this.webKitBrowser1))
-			{
 				this.btnBackward.Enabled = e.CanGoBack;
-			}
 		}
 
 		private void WebKitBrowser_ShowJavaScriptPromptBeforeUnload(object sender, ShowJavaScriptPromptBeforeUnloadEventArgs e)
@@ -135,23 +140,15 @@ namespace BrowserX
 			e.ReturnValue = MessageBox.Show(e.Message, "BrowserX Example", MessageBoxButtons.YesNoCancel) == DialogResult.Yes;
 		}
 
-		private void CustomContextMenuManager_ShowContextMenu(object sender, ShowContextMenuEventArgs e)
-		{
-			if (!this.webKitBrowser1.UseDefaultContextMenu)
-			{
-				customContextMenu.Show(this.webKitBrowser1, e.Location, ToolStripDropDownDirection.Default);
-			}
-		}
-
 		private void ResourceIntercepter_ResourceProgressChangedEvent(object sender, WebKitLoadingResourceEventArgs e)
 		{
 			if (e.Received > -1)
-			{
 				this.rtbResourceIntercepter.Text = this.rtbResourceIntercepter.Text + e.Received + " bytes have been received\r\n";
-			}
 			else
+			{
 				this.rtbResourceIntercepter.Text = this.rtbResourceIntercepter.Text
 												   + " the number of the bytes that have been received is not available\r\n";
+			}
 		}
 
 		private void ResourceIntercepter_ResourceFinishedLoadingEvent(object sender, WebKitResourcesEventArgs e)
@@ -205,7 +202,7 @@ namespace BrowserX
 
 		private void WebKitBrowser_ShowJavaScriptPromptPanel(object sender, ShowJavaScriptPromptPanelEventArgs e)
 		{
-			e.ReturnValue = Microsoft.VisualBasic.Interaction.InputBox(e.Message, "", e.DefaultValue);
+			e.ReturnValue = Interaction.InputBox(e.Message, "", e.DefaultValue);
 		}
 
 		private void WebKitBrowser_FaviconAvaiable(object sender, FaviconAvailableEventArgs e)
@@ -221,11 +218,16 @@ namespace BrowserX
 
 		private void WebKitBrowser_DocumentTitleChanged(object sender, EventArgs e)
 		{
-			string dt = (sender as WebKitBrowser).DocumentTitle;
+			WebKitBrowser webKitBrowser = sender as WebKitBrowser;
+			if (webKitBrowser != null)
+			{
+				string dt = webKitBrowser.DocumentTitle;
 
-			string ft = dt.Length > 30 ? dt.Substring(0, 30) + "..." : dt;
-			var panel = (sender as WebKitBrowser).Parent as SuperTabControlPanel;
-			panel.TabItem.Text = ft;		
+				string ft = dt.Length > 30 ? dt.Substring(0, 30) + "..." : dt;
+				SuperTabControlPanel panel = webKitBrowser.Parent as SuperTabControlPanel;
+				if (panel != null)
+					panel.TabItem.Text = ft;
+			}
 		}
 
 		private void WebKitBrowser_ProgressChanged(object sender, ProgressChangesEventArgs e)
@@ -254,48 +256,37 @@ namespace BrowserX
 
 		private void WebKitBrowser_CloseWindowRequest(object sender, EventArgs e)
 		{
-			var webKitBrowser = sender as WebKitBrowser;
+			WebKitBrowser webKitBrowser = sender as WebKitBrowser;
 			if (webKitBrowser != null)
 				this.tcContent.Controls.Remove(webKitBrowser.Parent);
 		}
 
 		private void WebKitBrowser_DangerousSiteDetected(object sender, EventArgs e)
 		{
-			var webKitBrowser = sender as WebKitBrowser;
+			WebKitBrowser webKitBrowser = sender as WebKitBrowser;
 			if (webKitBrowser != null)
-			{
 				MessageBox.Show("The site " + webKitBrowser.Url + " is considered dangerous and it is recommended that you leave.");
-			}
 		}
 
 
-		private void AddTab(string url)
+		private void wb_FaviconAvailable(object sender, FaviconAvailableEventArgs e)
 		{
-			WebKitBrowser browser = new WebKitBrowser();
-			this.AddTab(browser);
-			browser.Navigate(url);
+			((Form)((WebKitBrowser)sender).Parent).Icon = e.Favicon;
 		}
 
-		private void AddTab(WebKitBrowser browser)
+		private void wb_DocumentTitleChanged(object sender, EventArgs e)
 		{
-			SuperTabItem tabItem = this.tcContent.CreateTab("");
-			tabItem.AttachedControl.Controls.Add(browser);
-			browser.Name = "WebKitBrowser";
-			browser.Dock = DockStyle.Fill;
-			this.tcContent.SelectedTab = tabItem;
-			this.AddEvents(browser);
+			((WebKitBrowser)sender).Parent.Text = ((WebKitBrowser)sender).DocumentTitle;
 		}
 
-		private WebKitBrowser webKitBrowser1
+		#endregion
+
+		#region FormEvents
+
+		private void CustomContextMenuManager_ShowContextMenu(object sender, ShowContextMenuEventArgs e)
 		{
-			get
-			{
-				if (this.tcContent.SelectedTab.AttachedControl.Controls.Count == 0)
- 				{
-					return null;
- 				}
-				return this.tcContent.SelectedTab.AttachedControl.Controls[0] as WebKitBrowser;
-			}
+			if (!this.webKitBrowser1.UseDefaultContextMenu)
+				this.customContextMenu.Show(this.webKitBrowser1, e.Location, ToolStripDropDownDirection.Default);
 		}
 
 		private void btnGo_Click(object sender, EventArgs e)
@@ -324,28 +315,7 @@ namespace BrowserX
 		}
 
 
-		#region ToolStripMenuItemEvents
-		private void openPageToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			using (OpenFileDialog opn = new OpenFileDialog())
-			{
-				opn.Filter = "HTML Files (*.html, *.htm)|*.html, *.htm";
-				if (opn.ShowDialog() == DialogResult.OK)
-					this.webKitBrowser1.OpenDocument(opn.FileName);
-			}
-		}
-
-		private void savePageAsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			this.webKitBrowser1.ShowSaveAsDialog();
-		}
-
-		#endregion
-
-		private void blockPopupsToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-
-		}
+		private void blockPopupsToolStripMenuItem1_Click(object sender, EventArgs e) { }
 
 		private void showPageSetupToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -377,25 +347,19 @@ namespace BrowserX
 		private void cbAllowJavaScript_CheckedChanged(object sender, EventArgs e)
 		{
 			if (this.webKitBrowser1 != null)
-			{
 				this.webKitBrowser1.UseJavaScript = this.cbAllowJavaScript.Checked;
-			}
 		}
 
 		private void cbAllowPlugins_CheckedChanged(object sender, EventArgs e)
 		{
 			if (this.webKitBrowser1 != null)
-			{
 				this.webKitBrowser1.Preferences.AllowPlugins = this.cbAllowPlugins.Checked;
-			}
 		}
 
 		private void privateBrowsingToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
 		{
 			if (this.webKitBrowser1 != null)
-			{
 				this.webKitBrowser1.PrivateBrowsing = this.privateBrowsingToolStripMenuItem.Checked;
-			}
 		}
 
 		private void MetroMainForm_Load(object sender, EventArgs e)
@@ -433,17 +397,13 @@ namespace BrowserX
 		private void numudPageZoom_ValueChanged(object sender, EventArgs e)
 		{
 			if (this.webKitBrowser1 != null)
-			{
 				this.webKitBrowser1.SetPageZoom((float)this.numudPageZoom.Value);
-			}
 		}
 
 		private void numudTextZoom_ValueChanged(object sender, EventArgs e)
 		{
 			if (this.webKitBrowser1 != null)
-			{
 				this.webKitBrowser1.SetTextZoom((float)this.numudTextZoom.Value);
-			}
 		}
 
 		private void btnZoomClose_Click(object sender, EventArgs e)
@@ -462,9 +422,7 @@ namespace BrowserX
 			{
 				opn.Filter = "CSS Files (*.css)|*.css";
 				if (opn.ShowDialog() == DialogResult.OK)
-				{
 					this.webKitBrowser1.CSSManager.SetPageStyleSheetFromLocalFile(opn.FileName);
-				}
 			}
 		}
 
@@ -479,7 +437,7 @@ namespace BrowserX
 			{
 				this.webKitBrowser1.UseDefaultContextMenu = !this.customMenuToolStripMenuItem.Checked;
 			}
-			catch (System.Exception ex)
+			catch (Exception ex)
 			{
 				MessageBoxEx.Show(ex.Message);
 			}
@@ -488,9 +446,7 @@ namespace BrowserX
 		private void tbUrl_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
-			{
 				this.webKitBrowser1.Navigate(this.tbUrl.Text);
-			}
 		}
 
 		private void resourceIntercepterToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -510,9 +466,7 @@ namespace BrowserX
 				opn.Filter = "INI Files (*.ini)|*.ini";
 				opn.InitialDirectory = Application.StartupPath + @"\LanguageLoader.resources";
 				if (opn.ShowDialog() == DialogResult.OK)
-				{
 					LanguageLoader.SetLanguageFromINIFile(opn.FileName);
-				}
 			}
 		}
 
@@ -548,5 +502,43 @@ namespace BrowserX
 		}
 
 
+		#endregion
+
+		#region Methods
+		private void AddTab(string url)
+		{
+			WebKitBrowser browser = new WebKitBrowser();
+			this.AddTab(browser);
+			browser.Navigate(url);
+		}
+
+		private void AddTab(WebKitBrowser browser)
+		{
+			SuperTabItem tabItem = this.tcContent.CreateTab("");
+			tabItem.AttachedControl.Controls.Add(browser);
+			browser.Name = "WebKitBrowser";
+			browser.Dock = DockStyle.Fill;
+			this.tcContent.SelectedTab = tabItem;
+			this.AddEvents(browser);
+		}
+
+		#endregion
+
+		#region ToolStripMenuItemEvents
+		private void openPageToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (OpenFileDialog opn = new OpenFileDialog())
+			{
+				opn.Filter = "HTML Files (*.html, *.htm)|*.html, *.htm";
+				if (opn.ShowDialog() == DialogResult.OK)
+					this.webKitBrowser1.OpenDocument(opn.FileName);
+			}
+		}
+
+		private void savePageAsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.webKitBrowser1.ShowSaveAsDialog();
+		}
+		#endregion
 	}
 }
