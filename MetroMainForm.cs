@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Windows.Forms;
 using DevComponents.DotNetBar;
 using DevComponents.DotNetBar.Metro;
@@ -13,24 +14,60 @@ namespace BrowserX
 	{
 		private readonly ContextMenuStrip customContextMenu = new ContextMenuStrip();
 
+
 		#region Constructor
 		public MetroMainForm()
 		{
 			this.InitializeComponent();
 
-			ToolStripMenuItem item = new ToolStripMenuItem("Test1") { Text = "Test 1" };
+			this.AddControlButton();
+			this.AddSkinOption();
+
+			ToolStripMenuItem item = new ToolStripMenuItem("Test1") {Text = "Test 1"};
 			this.customContextMenu.Items.Add(item);
-			item = new ToolStripMenuItem("Test2") { Text = "Test 2" };
+			item = new ToolStripMenuItem("Test2") {Text = "Test 2"};
 			this.customContextMenu.Items.Add(item);
 			item = new ToolStripMenuItem("-");
 			this.customContextMenu.Items.Add(item);
-			item = new ToolStripMenuItem("Test3") { Text = "Test 3" };
+			item = new ToolStripMenuItem("Test3") {Text = "Test 3"};
 			this.customContextMenu.Items.Add(item);
+		}
+
+		private void AddControlButton()
+		{
+			ButtonItem bi = new ButtonItem {Text = "гл"};
+			bi.Click += btnAddTab_Click;
+			this.tcContent.ControlBox.SubItems.Add(bi);
+		}
+
+		private void AddSkinOption()
+		{
+			var fields = typeof(eStyle).GetFields(BindingFlags.Static | BindingFlags.Public);
+
+			foreach (var f in fields)
+			{
+				ToolStripMenuItem menuItem = new ToolStripMenuItem {Text = f.Name};
+				menuItem.Click += itemSkinMenu_Click;
+				this.skinsToolStripMenuItem.DropDownItems.Add(menuItem);
+			}
+		}
+
+		private void itemSkinMenu_Click(object sender, EventArgs e)
+		{
+			var source = sender as ToolStripMenuItem;
+			if (source == null)
+				return;
+
+			var fields = typeof(eStyle).GetFields(BindingFlags.Static | BindingFlags.Public);
+			var style = (eStyle)Array.Find(fields, (f) => f.Name.Equals(source.Text)).GetValue(null);
+			this.styleManager.ManagerStyle = style;
+			this.Refresh();
 		}
 		#endregion
 
+
 		#region Properties
-		private WebKitBrowser webKitBrowser1
+		private WebKitBrowser webKitBrowser
 		{
 			get
 			{
@@ -40,6 +77,7 @@ namespace BrowserX
 			}
 		}
 		#endregion
+
 
 		#region WebKitEvents
 		private void AddEvents(WebKitBrowser browser)
@@ -79,7 +117,6 @@ namespace BrowserX
 			browser.ResourceIntercepter.ResourceFailedLoading +=
 				this.ResourceIntercepter_ResourceFailedLoading;
 		}
-
 
 
 		private void WebKitBrowser_Navigating(object sender, WebKitBrowserNavigatingEventArgs e)
@@ -125,13 +162,13 @@ namespace BrowserX
 
 		private void WebKitBrowser_CanGoForwardChanged(object sender, CanGoForwardChangedEventArgs e)
 		{
-			if (sender.Equals(this.webKitBrowser1))
+			if (sender.Equals(this.webKitBrowser))
 				this.btnForward.Enabled = e.CanGoForward;
 		}
 
 		private void WebKitBrowser_CanGoBackChanged(object sender, CanGoBackChangedEventArgs e)
 		{
-			if (sender.Equals(this.webKitBrowser1))
+			if (sender.Equals(this.webKitBrowser))
 				this.btnBackward.Enabled = e.CanGoBack;
 		}
 
@@ -147,20 +184,20 @@ namespace BrowserX
 			else
 			{
 				this.rtbResourceIntercepter.Text = this.rtbResourceIntercepter.Text
-												   + " the number of the bytes that have been received is not available\r\n";
+				                                   + " the number of the bytes that have been received is not available\r\n";
 			}
 		}
 
 		private void ResourceIntercepter_ResourceFinishedLoadingEvent(object sender, WebKitResourcesEventArgs e)
 		{
 			this.rtbResourceIntercepter.Text = this.rtbResourceIntercepter.Text + e.Resource.Url + " has finished loading."
-											   + "\r\n";
+			                                   + "\r\n";
 		}
 
 		private void ResourceIntercepter_ResourceStartedLoadingEvent(object sender, WebKitResourcesEventArgs e)
 		{
 			this.rtbResourceIntercepter.Text = this.rtbResourceIntercepter.Text + e.Resource.Url + " with the type "
-											   + e.Resource.MimeType + " has started loading." + "\r\n";
+			                                   + e.Resource.MimeType + " has started loading." + "\r\n";
 		}
 
 		private void ResourceIntercepter_ResourcesSendRequest(object sender, WebKitResourceRequestEventArgs e)
@@ -185,8 +222,8 @@ namespace BrowserX
 		private void ResourceIntercepter_ResourceFailedLoading(object sender, WebKitResourceErrorEventArgs e)
 		{
 			this.rtbResourceIntercepter.Text = this.rtbResourceIntercepter.Text + e.Resource.Url + " with the type "
-											   + e.Resource.MimeType + " failed to load because of this error: "
-											   + e.ErrorDescription + "\r\n";
+			                                   + e.Resource.MimeType + " failed to load because of this error: "
+			                                   + e.ErrorDescription + "\r\n";
 		}
 
 		private void WebKitBrowser_ShowJavaScriptConfirmPanel(object sender, ShowJavaScriptConfirmPanelEventArgs e)
@@ -209,11 +246,11 @@ namespace BrowserX
 		{
 			if (e.Favicon != null)
 			{
-				this.toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-				this.toolStripDropDownButton1.Image = e.Favicon.ToBitmap();
+				this.toolStripDropDownButtonOptionMenu.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+				this.toolStripDropDownButtonOptionMenu.Image = e.Favicon.ToBitmap();
 			}
 			else
-				this.toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+				this.toolStripDropDownButtonOptionMenu.DisplayStyle = ToolStripItemDisplayStyle.Text;
 		}
 
 		private void WebKitBrowser_DocumentTitleChanged(object sender, EventArgs e)
@@ -238,13 +275,13 @@ namespace BrowserX
 		private void WebKitBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
 		{
 			this.tbUrl.AutoCompleteCustomSource.Add(e.Url.ToString());
-			if (sender.Equals(this.webKitBrowser1))
+			if (sender.Equals(this.webKitBrowser))
 				this.tbUrl.Text = e.Url.ToString();
 		}
 
 		private void WebKitBrowser_StatusTextChanged(object sender, WebKitBrowserStatusChangedEventArgs e)
 		{
-			if (sender.Equals(this.webKitBrowser1)) // TODO: change webKitBrowser1 to this.tabControl1.SelectedTab.Controls[0]
+			if (sender.Equals(this.webKitBrowser))
 				this.tsslStatusLabel.Text = e.StatusText; // link hovering status text is only supported in nightly builds
 		}
 
@@ -269,6 +306,12 @@ namespace BrowserX
 		}
 
 
+		private void CustomContextMenuManager_ShowContextMenu(object sender, ShowContextMenuEventArgs e)
+		{
+			if (!this.webKitBrowser.UseDefaultContextMenu)
+				this.customContextMenu.Show(this.webKitBrowser, e.Location, ToolStripDropDownDirection.Default);
+		}
+
 		private void wb_FaviconAvailable(object sender, FaviconAvailableEventArgs e)
 		{
 			((Form)((WebKitBrowser)sender).Parent).Icon = e.Favicon;
@@ -278,88 +321,85 @@ namespace BrowserX
 		{
 			((WebKitBrowser)sender).Parent.Text = ((WebKitBrowser)sender).DocumentTitle;
 		}
-
 		#endregion
 
+
 		#region FormEvents
-
-		private void CustomContextMenuManager_ShowContextMenu(object sender, ShowContextMenuEventArgs e)
+		private void btnAddTab_Click(object sender, EventArgs e)
 		{
-			if (!this.webKitBrowser1.UseDefaultContextMenu)
-				this.customContextMenu.Show(this.webKitBrowser1, e.Location, ToolStripDropDownDirection.Default);
+			this.AddTab("about:blank");
 		}
-
 		private void btnGo_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.Navigate(this.tbUrl.Text);
+			this.webKitBrowser.Navigate(this.tbUrl.Text);
 		}
 
 		private void btnBackward_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.GoBack();
+			this.webKitBrowser.GoBack();
 		}
 
 		private void btnForward_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.GoForward();
+			this.webKitBrowser.GoForward();
 		}
 
 		private void btnRefresh_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.Reload();
+			this.webKitBrowser.Reload();
 		}
 
 		private void btnStop_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.Stop();
+			this.webKitBrowser.Stop();
 		}
 
 
-		private void blockPopupsToolStripMenuItem1_Click(object sender, EventArgs e) { }
+		private void blockPopupsToolStripMenuItem1_Click(object sender, EventArgs e) {}
 
 		private void showPageSetupToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.ShowPageSetupDialog();
+			this.webKitBrowser.ShowPageSetupDialog();
 		}
 
 		private void showPrintPreviewToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.ShowPrintPreviewDialog();
+			this.webKitBrowser.ShowPrintPreviewDialog();
 		}
 
 		private void showPrintDialogToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.ShowPrintDialog();
+			this.webKitBrowser.ShowPrintDialog();
 		}
 
 		private void testDownloadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("This will test the downloading of GT Web Browser 3 installer.");
-			this.webKitBrowser1.Navigate("http://gtwebbrowser.webs.com//Downloads/GT%20Web%20Browser%203%20Setup.msi");
+			this.webKitBrowser.Navigate("http://gtwebbrowser.webs.com//Downloads/GT%20Web%20Browser%203%20Setup.msi");
 		}
 
 		private void cbAllowCookies_CheckedChanged(object sender, EventArgs e)
 		{
-			if (this.webKitBrowser1 != null)
-				this.webKitBrowser1.AllowCookies = this.cbAllowCookies.Checked;
+			if (this.webKitBrowser != null)
+				this.webKitBrowser.AllowCookies = this.cbAllowCookies.Checked;
 		}
 
 		private void cbAllowJavaScript_CheckedChanged(object sender, EventArgs e)
 		{
-			if (this.webKitBrowser1 != null)
-				this.webKitBrowser1.UseJavaScript = this.cbAllowJavaScript.Checked;
+			if (this.webKitBrowser != null)
+				this.webKitBrowser.UseJavaScript = this.cbAllowJavaScript.Checked;
 		}
 
 		private void cbAllowPlugins_CheckedChanged(object sender, EventArgs e)
 		{
-			if (this.webKitBrowser1 != null)
-				this.webKitBrowser1.Preferences.AllowPlugins = this.cbAllowPlugins.Checked;
+			if (this.webKitBrowser != null)
+				this.webKitBrowser.Preferences.AllowPlugins = this.cbAllowPlugins.Checked;
 		}
 
 		private void privateBrowsingToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
 		{
-			if (this.webKitBrowser1 != null)
-				this.webKitBrowser1.PrivateBrowsing = this.privateBrowsingToolStripMenuItem.Checked;
+			if (this.webKitBrowser != null)
+				this.webKitBrowser.PrivateBrowsing = this.privateBrowsingToolStripMenuItem.Checked;
 		}
 
 		private void MetroMainForm_Load(object sender, EventArgs e)
@@ -370,18 +410,19 @@ namespace BrowserX
 		private void findToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.pFindPanel.Visible = true;
+			this.pFindPanel.Controls[2].Focus();
 		}
 
 		private void btnFindClose_Click(object sender, EventArgs e)
 		{
 			this.pFindPanel.Visible = false;
-			this.webKitBrowser1.UnmarkTextMatches();
+			this.webKitBrowser.UnmarkTextMatches();
 		}
 
 		private void btnFind_Click(object sender, EventArgs e)
 		{
 			uint totalMatches; // TODO: display in somewhere
-			this.webKitBrowser1.Find(this.tbFindBox.Text, out totalMatches);
+			this.webKitBrowser.Find(this.tbFindBox.Text, out totalMatches);
 		}
 
 		private void btnPrefPanelClose_Click(object sender, EventArgs e)
@@ -396,14 +437,14 @@ namespace BrowserX
 
 		private void numudPageZoom_ValueChanged(object sender, EventArgs e)
 		{
-			if (this.webKitBrowser1 != null)
-				this.webKitBrowser1.SetPageZoom((float)this.numudPageZoom.Value);
+			if (this.webKitBrowser != null)
+				this.webKitBrowser.SetPageZoom((float)this.numudPageZoom.Value);
 		}
 
 		private void numudTextZoom_ValueChanged(object sender, EventArgs e)
 		{
-			if (this.webKitBrowser1 != null)
-				this.webKitBrowser1.SetTextZoom((float)this.numudTextZoom.Value);
+			if (this.webKitBrowser != null)
+				this.webKitBrowser.SetTextZoom((float)this.numudTextZoom.Value);
 		}
 
 		private void btnZoomClose_Click(object sender, EventArgs e)
@@ -422,20 +463,20 @@ namespace BrowserX
 			{
 				opn.Filter = "CSS Files (*.css)|*.css";
 				if (opn.ShowDialog() == DialogResult.OK)
-					this.webKitBrowser1.CSSManager.SetPageStyleSheetFromLocalFile(opn.FileName);
+					this.webKitBrowser.CSSManager.SetPageStyleSheetFromLocalFile(opn.FileName);
 			}
 		}
 
 		private void setDefaultCSSToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.CSSManager.SetPageDefaultStyleSheet();
+			this.webKitBrowser.CSSManager.SetPageDefaultStyleSheet();
 		}
 
 		private void customMenuToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
 		{
 			try
 			{
-				this.webKitBrowser1.UseDefaultContextMenu = !this.customMenuToolStripMenuItem.Checked;
+				this.webKitBrowser.UseDefaultContextMenu = !this.customMenuToolStripMenuItem.Checked;
 			}
 			catch (Exception ex)
 			{
@@ -446,7 +487,7 @@ namespace BrowserX
 		private void tbUrl_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
-				this.webKitBrowser1.Navigate(this.tbUrl.Text);
+				this.webKitBrowser.Navigate(this.tbUrl.Text);
 		}
 
 		private void resourceIntercepterToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -472,7 +513,7 @@ namespace BrowserX
 
 		private void rtbResourceIntercepter_LinkClicked(object sender, LinkClickedEventArgs e)
 		{
-			this.webKitBrowser1.Navigate(e.LinkText);
+			this.webKitBrowser.Navigate(e.LinkText);
 		}
 
 		private void addTabToolStripMenuItem_Click(object sender, EventArgs e)
@@ -482,15 +523,17 @@ namespace BrowserX
 
 		private void tcContent_SelectedTabChanged(object sender, SuperTabStripSelectedTabChangedEventArgs e)
 		{
-			if (this.webKitBrowser1 == null)
+			if (this.webKitBrowser == null)
 				return;
 
-			this.tsslStatusLabel.Text = this.webKitBrowser1.StatusText;
-			this.toolStripProgressBar1.Value = (int)this.webKitBrowser1.WebView.estimatedProgress() * 100;
-			this.btnBackward.Enabled = this.webKitBrowser1.CanGoBack;
-			this.btnForward.Enabled = this.webKitBrowser1.CanGoForward;
+			this.tsslStatusLabel.Text = this.webKitBrowser.StatusText;
+			this.toolStripProgressBar1.Value = (int)this.webKitBrowser.WebView.estimatedProgress() * 100;
+			this.btnBackward.Enabled = this.webKitBrowser.CanGoBack;
+			this.btnForward.Enabled = this.webKitBrowser.CanGoForward;
 
-			this.tbUrl.Text = this.webKitBrowser1.Url != null ? this.webKitBrowser1.Url.ToString() : "about:blank";
+			this.tbUrl.Text = this.webKitBrowser.Url != null ? this.webKitBrowser.Url.ToString() : "about:blank";
+
+			((SuperTabItem)e.NewValue).AttachedControl.Controls[0].Focus();
 		}
 
 		private void removeTabToolStripMenuItem_Click(object sender, EventArgs e)
@@ -500,9 +543,13 @@ namespace BrowserX
 			this.tcContent.Controls.Remove(tabToRemove.AttachedControl);
 			this.tcContent.RecalcLayout();
 		}
-
-
+		private void tcContent_TabItemClose(object sender, SuperTabStripTabItemCloseEventArgs e)
+		{
+			if (this.tcContent.Tabs.Count == 1)
+				this.AddTab("about:blank");
+		}
 		#endregion
+
 
 		#region Methods
 		private void AddTab(string url)
@@ -521,8 +568,8 @@ namespace BrowserX
 			this.tcContent.SelectedTab = tabItem;
 			this.AddEvents(browser);
 		}
-
 		#endregion
+
 
 		#region ToolStripMenuItemEvents
 		private void openPageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -531,13 +578,13 @@ namespace BrowserX
 			{
 				opn.Filter = "HTML Files (*.html, *.htm)|*.html, *.htm";
 				if (opn.ShowDialog() == DialogResult.OK)
-					this.webKitBrowser1.OpenDocument(opn.FileName);
+					this.webKitBrowser.OpenDocument(opn.FileName);
 			}
 		}
 
 		private void savePageAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.webKitBrowser1.ShowSaveAsDialog();
+			this.webKitBrowser.ShowSaveAsDialog();
 		}
 		#endregion
 	}

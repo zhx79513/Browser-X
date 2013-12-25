@@ -16,7 +16,8 @@ namespace BrowserX
             WebKit.GlobalPreferences.DownloadsFolder = "C:\\Test Download";
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MetroMainForm());
+	        Form form = new MetroMainForm();
+            Application.Run(form);
         }
     }
 }

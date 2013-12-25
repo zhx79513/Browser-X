@@ -58,10 +58,8 @@
 			this.cbAllowCookies = new DevComponents.DotNetBar.Controls.CheckBoxX();
 			this.tcContent = new DevComponents.DotNetBar.SuperTabControl();
 			this.tcpContent = new DevComponents.DotNetBar.SuperTabControlPanel();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.tsslStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-			this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+			this.statusStrip = new System.Windows.Forms.StatusStrip();
+			this.toolStripDropDownButtonOptionMenu = new System.Windows.Forms.ToolStripDropDownButton();
 			this.addTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.removeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -80,6 +78,7 @@
 			this.privateBrowsingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.skinsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.applyCSSFromLocalFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,8 +86,10 @@
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.customMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.blockPopupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsslStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
 			this.switchButtonItem1 = new DevComponents.DotNetBar.SwitchButtonItem();
-			this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
+			this.styleManager = new DevComponents.DotNetBar.StyleManager(this.components);
 			this.pContent.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.contextMenuBar1)).BeginInit();
 			this.pZoom.SuspendLayout();
@@ -98,7 +99,7 @@
 			this.pPreference.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tcContent)).BeginInit();
 			this.tcContent.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
+			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnBackward
@@ -206,7 +207,7 @@
 			this.pContent.Controls.Add(this.pPreference);
 			this.pContent.Controls.Add(this.tcContent);
 			this.pContent.Controls.Add(this.rtbResourceIntercepter);
-			this.pContent.Controls.Add(this.statusStrip1);
+			this.pContent.Controls.Add(this.statusStrip);
 			this.pContent.Location = new System.Drawing.Point(0, 42);
 			this.pContent.Name = "pContent";
 			this.pContent.Size = new System.Drawing.Size(624, 382);
@@ -571,6 +572,7 @@
 			this.tcContent.TabIndex = 0;
 			this.tcContent.TabStyle = DevComponents.DotNetBar.eSuperTabStyle.OneNote2007;
 			this.tcContent.Text = "superTabControl1";
+			this.tcContent.TabItemClose += new System.EventHandler<DevComponents.DotNetBar.SuperTabStripTabItemCloseEventArgs>(this.tcContent_TabItemClose);
 			this.tcContent.SelectedTabChanged += new System.EventHandler<DevComponents.DotNetBar.SuperTabStripSelectedTabChangedEventArgs>(this.tcContent_SelectedTabChanged);
 			// 
 			// tcpContent
@@ -583,37 +585,21 @@
 			this.tcpContent.Size = new System.Drawing.Size(618, 211);
 			this.tcpContent.TabIndex = 1;
 			// 
-			// statusStrip1
+			// statusStrip
 			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButtonOptionMenu,
             this.tsslStatusLabel,
-            this.toolStripProgressBar1,
-            this.toolStripDropDownButton1});
-			this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-			this.statusStrip1.Location = new System.Drawing.Point(0, 360);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(624, 22);
-			this.statusStrip1.TabIndex = 3;
-			this.statusStrip1.Text = "statusStrip1";
+            this.toolStripProgressBar1});
+			this.statusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+			this.statusStrip.Location = new System.Drawing.Point(0, 360);
+			this.statusStrip.Name = "statusStrip";
+			this.statusStrip.Size = new System.Drawing.Size(624, 22);
+			this.statusStrip.TabIndex = 3;
 			// 
-			// tsslStatusLabel
+			// toolStripDropDownButtonOptionMenu
 			// 
-			this.tsslStatusLabel.Name = "tsslStatusLabel";
-			this.tsslStatusLabel.Size = new System.Drawing.Size(84, 17);
-			this.tsslStatusLabel.Text = "tsslStatusLabel";
-			// 
-			// toolStripProgressBar1
-			// 
-			this.toolStripProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-			this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-			this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-			// 
-			// toolStripDropDownButton1
-			// 
-			this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripDropDownButtonOptionMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addTabToolStripMenuItem,
             this.removeTabToolStripMenuItem,
             this.toolStripSeparator3,
@@ -632,6 +618,7 @@
             this.privateBrowsingToolStripMenuItem,
             this.zoomToolStripMenuItem,
             this.preferencesToolStripMenuItem,
+            this.skinsToolStripMenuItem,
             this.findToolStripMenuItem,
             this.toolStripSeparator2,
             this.applyCSSFromLocalFileToolStripMenuItem,
@@ -639,11 +626,11 @@
             this.toolStripSeparator7,
             this.customMenuToolStripMenuItem,
             this.blockPopupsToolStripMenuItem});
-			this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-			this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-			this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 20);
-			this.toolStripDropDownButton1.Text = "Menu";
+			this.toolStripDropDownButtonOptionMenu.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonOptionMenu.Image")));
+			this.toolStripDropDownButtonOptionMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButtonOptionMenu.Name = "toolStripDropDownButtonOptionMenu";
+			this.toolStripDropDownButtonOptionMenu.Size = new System.Drawing.Size(67, 20);
+			this.toolStripDropDownButtonOptionMenu.Text = "Menu";
 			// 
 			// addTabToolStripMenuItem
 			// 
@@ -763,6 +750,12 @@
 			this.preferencesToolStripMenuItem.Text = "Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
 			// 
+			// skinsToolStripMenuItem
+			// 
+			this.skinsToolStripMenuItem.Name = "skinsToolStripMenuItem";
+			this.skinsToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+			this.skinsToolStripMenuItem.Text = "Skins";
+			// 
 			// findToolStripMenuItem
 			// 
 			this.findToolStripMenuItem.Name = "findToolStripMenuItem";
@@ -812,14 +805,27 @@
 			this.blockPopupsToolStripMenuItem.Text = "Block Popups";
 			this.blockPopupsToolStripMenuItem.Click += new System.EventHandler(this.blockPopupsToolStripMenuItem1_Click);
 			// 
+			// tsslStatusLabel
+			// 
+			this.tsslStatusLabel.Name = "tsslStatusLabel";
+			this.tsslStatusLabel.Size = new System.Drawing.Size(84, 17);
+			this.tsslStatusLabel.Text = "tsslStatusLabel";
+			// 
+			// toolStripProgressBar1
+			// 
+			this.toolStripProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+			this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+			this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			// 
 			// switchButtonItem1
 			// 
 			this.switchButtonItem1.Name = "switchButtonItem1";
 			// 
-			// styleManager1
+			// styleManager
 			// 
-			this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Silver;
-			this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(87)))), ((int)(((byte)(154))))));
+			this.styleManager.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Silver;
+			this.styleManager.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(87)))), ((int)(((byte)(154))))));
 			// 
 			// MetroMainForm
 			// 
@@ -836,6 +842,7 @@
 			this.DoubleBuffered = true;
 			this.FlattenMDIBorder = false;
 			this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(640, 460);
 			this.Name = "MetroMainForm";
 			this.Text = "BrowserX";
@@ -851,8 +858,8 @@
 			this.pPreference.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.tcContent)).EndInit();
 			this.tcContent.ResumeLayout(false);
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			this.statusStrip.ResumeLayout(false);
+			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -869,11 +876,11 @@
 		private DevComponents.DotNetBar.SuperTabControl tcContent;
 		private DevComponents.DotNetBar.SuperTabControlPanel tcpContent;
 		private DevComponents.DotNetBar.SwitchButtonItem switchButtonItem1;
-		private DevComponents.DotNetBar.StyleManager styleManager1;
-		private System.Windows.Forms.StatusStrip statusStrip1;
+		private DevComponents.DotNetBar.StyleManager styleManager;
+		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel tsslStatusLabel;
 		private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonOptionMenu;
 		private System.Windows.Forms.ToolStripMenuItem openPageToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem savePageAsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem blockPopupsToolStripMenuItem;
@@ -918,5 +925,6 @@
 		private DevComponents.DotNetBar.ContextMenuBar contextMenuBar1;
 		private DevComponents.DotNetBar.ButtonItem btnitemResourceInsContextMenu;
 		private DevComponents.DotNetBar.ButtonItem biRiClear;
+		private System.Windows.Forms.ToolStripMenuItem skinsToolStripMenuItem;
 	}
 }
