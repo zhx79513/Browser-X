@@ -15,4 +15,3 @@ E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\o
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.exe
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.pdb
 E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.csprojResolveAssemblyReference.cache
-E:\Users\Administrator\Documents\Visual Studio 2010\Projects\BrowserX\BrowserX\obj\x86\Release\BrowserX.Resource.resources

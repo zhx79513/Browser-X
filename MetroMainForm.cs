@@ -36,30 +36,30 @@ namespace BrowserX
 		private void AddControlButton()
 		{
 			ButtonItem bi = new ButtonItem {Text = "гл"};
-			bi.Click += btnAddTab_Click;
+			bi.Click += this.btnAddTab_Click;
 			this.tcContent.ControlBox.SubItems.Add(bi);
 		}
 
 		private void AddSkinOption()
 		{
-			var fields = typeof(eStyle).GetFields(BindingFlags.Static | BindingFlags.Public);
+			FieldInfo[] fields = typeof(eStyle).GetFields(BindingFlags.Static | BindingFlags.Public);
 
-			foreach (var f in fields)
+			foreach (FieldInfo f in fields)
 			{
 				ToolStripMenuItem menuItem = new ToolStripMenuItem {Text = f.Name};
-				menuItem.Click += itemSkinMenu_Click;
+				menuItem.Click += this.itemSkinMenu_Click;
 				this.skinsToolStripMenuItem.DropDownItems.Add(menuItem);
 			}
 		}
 
 		private void itemSkinMenu_Click(object sender, EventArgs e)
 		{
-			var source = sender as ToolStripMenuItem;
+			ToolStripMenuItem source = sender as ToolStripMenuItem;
 			if (source == null)
 				return;
 
-			var fields = typeof(eStyle).GetFields(BindingFlags.Static | BindingFlags.Public);
-			var style = (eStyle)Array.Find(fields, (f) => f.Name.Equals(source.Text)).GetValue(null);
+			FieldInfo[] fields = typeof(eStyle).GetFields(BindingFlags.Static | BindingFlags.Public);
+			eStyle style = (eStyle)Array.Find(fields, (f) => f.Name.Equals(source.Text)).GetValue(null);
 			this.styleManager.ManagerStyle = style;
 			this.Refresh();
 		}
@@ -121,7 +121,7 @@ namespace BrowserX
 
 		private void WebKitBrowser_Navigating(object sender, WebKitBrowserNavigatingEventArgs e)
 		{
-			// here you can interfere with the WebKitBrowser object before it attempts to load a web page
+			// here you can interfere with the webKitBrowser object before it attempts to load a web page
 			// You can cancel the navigation progress and get the Url and TargetFrameName
 		}
 
@@ -329,6 +329,7 @@ namespace BrowserX
 		{
 			this.AddTab("about:blank");
 		}
+
 		private void btnGo_Click(object sender, EventArgs e)
 		{
 			this.webKitBrowser.Navigate(this.tbUrl.Text);
@@ -543,6 +544,7 @@ namespace BrowserX
 			this.tcContent.Controls.Remove(tabToRemove.AttachedControl);
 			this.tcContent.RecalcLayout();
 		}
+
 		private void tcContent_TabItemClose(object sender, SuperTabStripTabItemCloseEventArgs e)
 		{
 			if (this.tcContent.Tabs.Count == 1)
@@ -563,7 +565,7 @@ namespace BrowserX
 		{
 			SuperTabItem tabItem = this.tcContent.CreateTab("");
 			tabItem.AttachedControl.Controls.Add(browser);
-			browser.Name = "WebKitBrowser";
+			browser.Name = "webKitBrowser";
 			browser.Dock = DockStyle.Fill;
 			this.tcContent.SelectedTab = tabItem;
 			this.AddEvents(browser);
@@ -587,5 +589,7 @@ namespace BrowserX
 			this.webKitBrowser.ShowSaveAsDialog();
 		}
 		#endregion
+
+
 	}
 }

@@ -1,30 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="BrowserX.MetroMainForm">
-    <Position X="4.5" Y="0.5" Width="7.5" />
+    <Position X="0.5" Y="0.5" Width="7.5" />
     <TypeIdentifier>
       <HashCode>gBoCyf9rW2GwDUHwZBiQLgFHDAlT9hA/GeIYoLhhQ1c=</HashCode>
       <FileName>MetroMainForm.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="webKitBrowser" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="BrowserX.Program">
-    <Position X="0.5" Y="5.5" Width="1.5" />
+    <Position X="17.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BrowserX.Properties.Resources">
-    <Position X="0.5" Y="0.5" Width="3.25" />
+    <Position X="17.5" Y="0.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="BrowserX.Properties.Settings">
-    <Position X="0.5" Y="3.25" Width="2" />
+    <Position X="17.5" Y="3.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
+  </Class>
+  <Class Name="WebKit.WebKitBrowser">
+    <Position X="9.25" Y="0.5" Width="7" />
+    <TypeIdentifier />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
